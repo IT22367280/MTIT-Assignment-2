@@ -17,6 +17,7 @@ export interface Customer {
 export interface FoodOrder {
   id: number;
   customerId: number;
+  customerName?: string;
   itemName: string;
   quantity: number;
   totalAmount: number;
