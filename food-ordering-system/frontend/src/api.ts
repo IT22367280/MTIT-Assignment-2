@@ -41,6 +41,13 @@ export const api = {
     if (!res.ok) throw new Error('Failed to create customer');
     return res.json();
   },
+  resolveCustomer: async (customer: Omit<Customer, 'id'>): Promise<Customer> => {
+    const res = await fetch(`${API_BASE}/customers/resolve`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(customer)
+    });
+    if (!res.ok) throw new Error('Failed to resolve customer');
+    return res.json();
+  },
   updateCustomer: async (id: number, customer: Omit<Customer, 'id'>): Promise<Customer> => {
     const res = await fetch(`${API_BASE}/customers/${id}`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(customer)

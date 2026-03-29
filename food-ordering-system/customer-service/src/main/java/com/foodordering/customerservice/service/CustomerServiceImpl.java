@@ -41,6 +41,26 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public CustomerResponse resolveCustomer(CustomerRequest customerRequest) {
+        Customer customer = customerRepository.findByEmailIgnoreCase(customerRequest.getEmail())
+                .map(existingCustomer -> {
+                    existingCustomer.setFullName(customerRequest.getFullName());
+                    existingCustomer.setEmail(customerRequest.getEmail());
+                    existingCustomer.setPhone(customerRequest.getPhone());
+                    existingCustomer.setAddress(customerRequest.getAddress());
+                    return existingCustomer;
+                })
+                .orElseGet(() -> Customer.builder()
+                        .fullName(customerRequest.getFullName())
+                        .email(customerRequest.getEmail())
+                        .phone(customerRequest.getPhone())
+                        .address(customerRequest.getAddress())
+                        .build());
+
+        return toResponse(customerRepository.save(customer));
+    }
+
+    @Override
     public CustomerResponse updateCustomer(Long id, CustomerRequest customerRequest) {
         Customer customer = findCustomerById(id);
         customer.setFullName(customerRequest.getFullName());

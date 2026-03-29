@@ -93,6 +93,27 @@ public class CustomerController {
         return ResponseEntity.created(location).body(createdCustomer);
     }
 
+    @PostMapping("/resolve")
+    @Operation(
+            summary = "Resolve customer for checkout",
+            description = "Finds an existing customer by email or creates a new customer when none exists."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Customer resolved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CustomerResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid customer payload",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))
+            )
+    })
+    public ResponseEntity<CustomerResponse> resolveCustomer(@Valid @RequestBody CustomerRequest customerRequest) {
+        return ResponseEntity.ok(customerService.resolveCustomer(customerRequest));
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Update customer", description = "Updates an existing customer record.")
     @ApiResponses({
