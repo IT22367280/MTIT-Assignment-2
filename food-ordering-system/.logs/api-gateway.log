@@ -1,0 +1,128 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.foodordering:api-gateway >--------------------
+[INFO] Building api-gateway 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.7:run (default-cli) > test-compile @ api-gateway >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ api-gateway ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ api-gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ api-gateway ---
+[INFO] skip non existing resourceDirectory /Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ api-gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.5.7:run (default-cli) < test-compile @ api-gateway <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.7:run (default-cli) @ api-gateway ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2026-03-29T15:37:57.324+05:30  INFO 13858 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 25.0.2 with PID 13858 (/Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway/target/classes started by sagee in /Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway)
+2026-03-29T15:37:57.325+05:30  INFO 13858 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-29T15:37:57.411+05:30  INFO 13858 --- [api-gateway] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-29T15:37:57.411+05:30  INFO 13858 --- [api-gateway] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-29T15:37:57.731+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=1c41863d-fd86-35c4-b91c-aa9cfd31edfb
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/sagee/.m2/repository/io/netty/netty-common/4.1.128.Final/netty-common-4.1.128.Final.jar)
+WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
+WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-03-29T15:37:58.133+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-03-29T15:37:58.344+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
+2026-03-29T15:37:58.383+05:30  INFO 13858 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 1.243 seconds (process running for 1.536)
+2026-03-29T15:37:58.385+05:30  WARN 13858 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-03-29T15:37:58.385+05:30  WARN 13858 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by io.netty.util.internal.NativeLibraryUtil in an unnamed module (file:/Users/sagee/.m2/repository/io/netty/netty-common/4.1.128.Final/netty-common-4.1.128.Final.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+2026-03-29T15:38:04.366+05:30 ERROR 13858 --- [api-gateway] [ctor-http-nio-5] i.n.r.d.DnsServerAddressStreamProviders  : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
+2026-03-29T15:52:04.421+05:30  INFO 13858 --- [api-gateway] [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2026-03-29T15:52:04.427+05:30  INFO 13858 --- [api-gateway] [       Thread-1] o.s.b.w.embedded.netty.GracefulShutdown  : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-29T15:52:04.429+05:30  INFO 13858 --- [api-gateway] [ netty-shutdown] o.s.b.w.embedded.netty.GracefulShutdown  : Graceful shutdown complete
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2026-03-29T15:52:04.500+05:30  INFO 13858 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 25.0.2 with PID 13858 (/Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway/target/classes started by sagee in /Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway)
+2026-03-29T15:52:04.500+05:30  INFO 13858 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-29T15:52:04.639+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=1c41863d-fd86-35c4-b91c-aa9cfd31edfb
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-03-29T15:52:04.715+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-03-29T15:52:04.766+05:30  INFO 13858 --- [api-gateway] [  restartedMain] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
+2026-03-29T15:52:04.787+05:30  INFO 13858 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 0.311 seconds (process running for 847.944)
+2026-03-29T15:52:04.788+05:30  WARN 13858 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-03-29T15:52:04.788+05:30  WARN 13858 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-03-29T15:52:04.789+05:30  INFO 13858 --- [api-gateway] [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-29T15:55:59.078+05:30 ERROR 13858 --- [api-gateway] [ctor-http-nio-2] a.w.r.e.AbstractErrorWebExceptionHandler : [8f7d1ea6-22]  500 Server Error for HTTP GET "/api/orders"
+
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: /127.0.0.1:8083
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ HTTP GET "/api/orders" [ExceptionHandlingWebHandler]
+Original Stack Trace:
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639) ~[na:na]
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:1046) ~[na:na]
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:336) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:339) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:784) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:732) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:658) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:998) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+

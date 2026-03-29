@@ -87,7 +87,7 @@ export default function App() {
           status: 'PENDING'
         });
         // Auto-create payment for new manual order
-        await api.createPayment({ orderId: order.id, amount: parseFloat(formData.totalAmount), paymentMethod: 'CASH', paymentStatus: 'PAID' }).catch(() => {});
+        await api.createPayment({ orderId: order.id, amount: parseFloat(formData.totalAmount), paymentMethod: 'CASH', paymentStatus: 'ON_DELIVERY' }).catch(() => {});
       } else {
         await api.updateOrderStatus(formData.id, formData.status);
       }
@@ -107,11 +107,11 @@ export default function App() {
       } else {
         await api.updatePaymentStatus(formData.id, formData.paymentStatus);
       }
-      setIsModalOpen(false); fetchPayments();
+      setIsModalOpen(false); fetchPayments(); fetchOrders();
     } catch { alert('Failed to save payment'); }
   };
   const deletePayment = async (id: number) => {
-    if (confirm('Delete this payment?')) { await api.deletePayment(id).catch(() => alert('Error')); fetchPayments(); }
+    if (confirm('Delete this payment?')) { await api.deletePayment(id).catch(() => alert('Error')); fetchPayments(); fetchOrders(); }
   };
 
   // ---- STOREFRONT ----
@@ -123,6 +123,7 @@ export default function App() {
   };
   const updateQuantity = (id: number, delta: number) => setCart(cart.map(p => p.id === id ? { ...p, cartQuantity: Math.max(1, p.cartQuantity + delta) } : p));
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
+  const resolvePaymentStatus = (method: string) => method === 'CARD' ? 'PAID' : 'ON_DELIVERY';
 
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,7 +134,7 @@ export default function App() {
         const customer = await api.createCustomer(customerForm);
         await Promise.all(cart.map(async (ci) => {
           const order = await api.createOrder({ customerId: customer.id, itemName: ci.itemName, quantity: ci.cartQuantity, totalAmount: ci.price * ci.cartQuantity, status: 'PENDING' });
-          await api.createPayment({ orderId: order.id, amount: ci.price * ci.cartQuantity, paymentMethod, paymentStatus: 'PAID' });
+          await api.createPayment({ orderId: order.id, amount: ci.price * ci.cartQuantity, paymentMethod, paymentStatus: resolvePaymentStatus(paymentMethod) });
         }));
         setCheckoutStep(3); setCart([]);
       } catch { alert('Checkout failed. Are all backend services running?'); } finally { setIsLoading(false); }
@@ -286,7 +287,7 @@ export default function App() {
               <button className="btn btn-primary" onClick={() => openAddModal('ADD_ORDER', { status: 'PENDING' })}><Plus size={16} /> Create Order</button>
             </div>
             <AdminTable
-              headers={['Order ID', 'Customer', 'Item', 'Qty', 'Total', 'Status', 'Actions']}
+              headers={['Order ID', 'Customer', 'Item', 'Qty', 'Total', 'Payment', 'Status', 'Actions']}
               empty={orders.length === 0}
               emptyMsg="No orders yet. Place one from the Storefront!"
             >
@@ -297,6 +298,13 @@ export default function App() {
                   <td style={td}>{o.itemName}</td>
                   <td style={td}>x{o.quantity}</td>
                   <td style={{ ...td, fontWeight: 700 }}>${o.totalAmount.toFixed(2)}</td>
+                  <td style={td}>
+                    {o.paymentId ? (
+                      <span className="badge badge-success">#{o.paymentId}</span>
+                    ) : (
+                      <span style={{ color: 'var(--text-muted)' }}>Not linked</span>
+                    )}
+                  </td>
                   <td style={td}><span className={`badge ${o.status === 'COMPLETE' ? 'badge-success' : o.status === 'CANCELLED' ? '' : 'badge-warning'}`} style={o.status === 'CANCELLED' ? { background: '#fee2e2', color: '#dc2626' } : {}}>{o.status}</span></td>
                   <td style={td}><ActionBtns onEdit={() => openEditModal('EDIT_ORDER', o)} onDelete={() => deleteOrder(o.id)} /></td>
                 </tr>
@@ -422,14 +430,17 @@ export default function App() {
                       setFormData({ ...formData, orderId: e.target.value, amount: ord ? ord.totalAmount.toFixed(2) : formData.amount });
                     }}>
                       <option value="">-- Select Order --</option>
-                      {orders.map(o => <option key={o.id} value={o.id}>#{o.id} — {o.itemName} (${o.totalAmount.toFixed(2)})</option>)}
+                      {orders.filter(o => !o.paymentId).map(o => <option key={o.id} value={o.id}>#{o.id} — {o.itemName} (${o.totalAmount.toFixed(2)})</option>)}
                     </select>
                   </FormGroup>
                   <FormGroup label="Amount ($)">
                     <input type="number" step="0.01" min="0.01" required className="form-control" value={formData.amount || ''} onChange={e => setFormData({ ...formData, amount: e.target.value })} />
                   </FormGroup>
                   <FormGroup label="Payment Method">
-                    <select className="form-control" value={formData.paymentMethod} onChange={e => setFormData({ ...formData, paymentMethod: e.target.value })}>
+                    <select className="form-control" value={formData.paymentMethod} onChange={e => {
+                      const paymentMethod = e.target.value;
+                      setFormData({ ...formData, paymentMethod, paymentStatus: resolvePaymentStatus(paymentMethod) });
+                    }}>
                       <option value="CARD">CARD</option>
                       <option value="CASH">CASH</option>
                     </select>
@@ -437,7 +448,7 @@ export default function App() {
                   <FormGroup label="Payment Status">
                     <select className="form-control" value={formData.paymentStatus} onChange={e => setFormData({ ...formData, paymentStatus: e.target.value })}>
                       <option value="PAID">PAID</option>
-                      <option value="ON_DELIVERY">ON_DELIVERY</option>
+                      {formData.paymentMethod === 'CASH' && <option value="ON_DELIVERY">ON_DELIVERY</option>}
                     </select>
                   </FormGroup>
                 </>
@@ -452,7 +463,7 @@ export default function App() {
                   <FormGroup label="Payment Status">
                     <select className="form-control" value={formData.paymentStatus} onChange={e => setFormData({ ...formData, paymentStatus: e.target.value })}>
                       <option value="PAID">PAID</option>
-                      <option value="ON_DELIVERY">ON_DELIVERY</option>
+                      {formData.paymentMethod === 'CASH' && <option value="ON_DELIVERY">ON_DELIVERY</option>}
                     </select>
                   </FormGroup>
                 </>

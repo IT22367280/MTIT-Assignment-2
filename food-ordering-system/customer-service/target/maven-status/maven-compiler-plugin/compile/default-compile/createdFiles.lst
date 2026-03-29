@@ -1,14 +1,1 @@
-com\foodordering\customerservice\dto\CustomerResponse$CustomerResponseBuilder.class
-com\foodordering\customerservice\exception\ApiErrorResponse$ApiErrorResponseBuilder.class
-com\foodordering\customerservice\exception\ResourceNotFoundException.class
-com\foodordering\customerservice\model\Customer$CustomerBuilder.class
-com\foodordering\customerservice\controller\CustomerController.class
-com\foodordering\customerservice\dto\CustomerRequest.class
-com\foodordering\customerservice\repository\CustomerRepository.class
-com\foodordering\customerservice\exception\GlobalExceptionHandler.class
-com\foodordering\customerservice\dto\CustomerResponse.class
-com\foodordering\customerservice\exception\ApiErrorResponse.class
-com\foodordering\customerservice\model\Customer.class
-com\foodordering\customerservice\service\CustomerService.class
-com\foodordering\customerservice\CustomerServiceApplication.class
-com\foodordering\customerservice\service\CustomerServiceImpl.class
+com/foodordering/customerservice/CustomerServiceOpenApiConfig.class

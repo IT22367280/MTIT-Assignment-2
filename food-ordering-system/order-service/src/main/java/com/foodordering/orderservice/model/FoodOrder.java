@@ -37,6 +37,9 @@ public class FoodOrder {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
 
+    @Column(name = "payment_id")
+    private Long paymentId;
+
     @Column(nullable = false)
     private String status;
 }

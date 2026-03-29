@@ -21,6 +21,7 @@ export interface FoodOrder {
   itemName: string;
   quantity: number;
   totalAmount: number;
+  paymentId?: number | null;
   status: string;
 }
 

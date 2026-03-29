@@ -59,7 +59,7 @@ export const api = {
     if (!res.ok) throw new Error('Failed to fetch orders');
     return res.json();
   },
-  createOrder: async (order: Omit<FoodOrder, 'id' | 'customerName'>): Promise<FoodOrder> => {
+  createOrder: async (order: Omit<FoodOrder, 'id' | 'customerName' | 'paymentId'>): Promise<FoodOrder> => {
     const res = await fetch(`${API_BASE}/orders`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order)
     });

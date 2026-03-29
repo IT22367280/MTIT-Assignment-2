@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.foodordering.menuservice.controller.MenuItemControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.098 s -- in com.foodordering.menuservice.controller.MenuItemControllerIntegrationTest

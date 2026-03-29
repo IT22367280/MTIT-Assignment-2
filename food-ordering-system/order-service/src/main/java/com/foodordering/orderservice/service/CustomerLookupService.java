@@ -17,7 +17,7 @@ public class CustomerLookupService {
 
     public CustomerLookupService(
             RestTemplateBuilder restTemplateBuilder,
-            @Value("${customer.service.base-url:http://localhost:8081}") String customerServiceBaseUrl
+            @Value("${customer.service.base-url:http://127.0.0.1:8081}") String customerServiceBaseUrl
     ) {
         this.restTemplate = restTemplateBuilder.build();
         this.customerServiceBaseUrl = customerServiceBaseUrl;

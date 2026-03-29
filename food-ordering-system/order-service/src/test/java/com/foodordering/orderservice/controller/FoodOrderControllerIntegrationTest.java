@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodordering.orderservice.dto.FoodOrderRequest;
 import com.foodordering.orderservice.dto.FoodOrderResponse;
+import com.foodordering.orderservice.dto.OrderPaymentUpdateRequest;
 import com.foodordering.orderservice.dto.OrderStatusUpdateRequest;
 import com.foodordering.orderservice.exception.GlobalExceptionHandler;
 import com.foodordering.orderservice.exception.ResourceNotFoundException;
@@ -54,7 +55,7 @@ class FoodOrderControllerIntegrationTest {
         );
 
         when(foodOrderService.createOrder(any(FoodOrderRequest.class))).thenReturn(
-                new FoodOrderResponse(6L, 2L, "Brian Lee", "Cheese Pizza", 1, 2200.00, "PENDING")
+                new FoodOrderResponse(6L, 2L, "Brian Lee", "Cheese Pizza", 1, 2200.00, null, "PENDING")
         );
 
         mockMvc.perform(post("/orders")
@@ -74,11 +75,11 @@ class FoodOrderControllerIntegrationTest {
     @Test
     void getAllOrdersReturnsOrders() throws Exception {
         when(foodOrderService.getAllOrders()).thenReturn(List.of(
-                new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, "PENDING"),
-                new FoodOrderResponse(2L, 2L, "Brian Lee", "Cheese Pizza", 1, 2200.00, "RECEIVED"),
-                new FoodOrderResponse(3L, 3L, "Catherine Smith", "Iced Coffee", 3, 1950.00, "COMPLETE"),
-                new FoodOrderResponse(4L, 4L, "Daniel Perez", "Veggie Wrap", 2, 1960.00, "CANCELLED"),
-                new FoodOrderResponse(5L, 5L, "Emma Wilson", "French Fries", 1, 550.00, "PENDING")
+                new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, 10L, "PENDING"),
+                new FoodOrderResponse(2L, 2L, "Brian Lee", "Cheese Pizza", 1, 2200.00, null, "RECEIVED"),
+                new FoodOrderResponse(3L, 3L, "Catherine Smith", "Iced Coffee", 3, 1950.00, 12L, "COMPLETE"),
+                new FoodOrderResponse(4L, 4L, "Daniel Perez", "Veggie Wrap", 2, 1960.00, null, "CANCELLED"),
+                new FoodOrderResponse(5L, 5L, "Emma Wilson", "French Fries", 1, 550.00, 15L, "PENDING")
         ));
 
         mockMvc.perform(get("/orders"))
@@ -89,6 +90,7 @@ class FoodOrderControllerIntegrationTest {
                 .andExpect(jsonPath("$[0].itemName").value("Chicken Burger"))
                 .andExpect(jsonPath("$[0].quantity").value(2))
                 .andExpect(jsonPath("$[0].totalAmount").value(2500.0))
+                .andExpect(jsonPath("$[0].paymentId").value(10))
                 .andExpect(jsonPath("$[0].status").value("PENDING"))
                 .andExpect(jsonPath("$[1].status").value("RECEIVED"))
                 .andExpect(jsonPath("$[2].status").value("COMPLETE"))
@@ -98,14 +100,31 @@ class FoodOrderControllerIntegrationTest {
     @Test
     void getOrderByIdReturnsOrder() throws Exception {
         when(foodOrderService.getOrderById(1L))
-                .thenReturn(new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, "PENDING"));
+                .thenReturn(new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, 11L, "PENDING"));
 
         mockMvc.perform(get("/orders/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.customerId").value(1))
                 .andExpect(jsonPath("$.customerName").value("Alice Johnson"))
-                .andExpect(jsonPath("$.itemName").value("Chicken Burger"));
+                .andExpect(jsonPath("$.itemName").value("Chicken Burger"))
+                .andExpect(jsonPath("$.paymentId").value(11));
+    }
+
+    @Test
+    void updateOrderPaymentReturnsUpdatedOrder() throws Exception {
+        OrderPaymentUpdateRequest request = new OrderPaymentUpdateRequest(9L);
+
+        when(foodOrderService.updateOrderPayment(eq(1L), any(OrderPaymentUpdateRequest.class)))
+                .thenReturn(new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, 9L, "PENDING"));
+
+        mockMvc.perform(put("/orders/1/payment")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.paymentId").value(9))
+                .andExpect(jsonPath("$.status").value("PENDING"));
     }
 
     @Test
@@ -113,7 +132,7 @@ class FoodOrderControllerIntegrationTest {
         OrderStatusUpdateRequest request = new OrderStatusUpdateRequest("complete");
 
         when(foodOrderService.updateOrderStatus(eq(1L), any(OrderStatusUpdateRequest.class)))
-                .thenReturn(new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, "COMPLETE"));
+                .thenReturn(new FoodOrderResponse(1L, 1L, "Alice Johnson", "Chicken Burger", 2, 2500.00, 9L, "COMPLETE"));
 
         mockMvc.perform(put("/orders/1/status")
                         .contentType(MediaType.APPLICATION_JSON)
