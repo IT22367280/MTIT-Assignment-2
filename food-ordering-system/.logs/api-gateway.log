@@ -35,36 +35,36 @@
 
  :: Spring Boot ::                (v3.5.7)
 
-2026-03-29T21:12:32.017+05:30  INFO 20371 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 25.0.2 with PID 20371 (/Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway/target/classes started by sagee in /Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway)
-2026-03-29T21:12:32.018+05:30  INFO 20371 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
-2026-03-29T21:12:32.105+05:30  INFO 20371 --- [api-gateway] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2026-03-29T21:12:32.105+05:30  INFO 20371 --- [api-gateway] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2026-03-29T21:12:32.463+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=1c41863d-fd86-35c4-b91c-aa9cfd31edfb
+2026-03-30T18:44:36.261+05:30  INFO 15195 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 25.0.2 with PID 15195 (/Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway/target/classes started by sagee in /Users/sagee/Desktop/Y4S2/MITIT/Assignment2/food-ordering-system/api-gateway)
+2026-03-30T18:44:36.262+05:30  INFO 15195 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-30T18:44:36.375+05:30  INFO 15195 --- [api-gateway] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-30T18:44:36.375+05:30  INFO 15195 --- [api-gateway] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-30T18:44:36.791+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=112056ae-cb68-36d7-9020-d40d795fbdab
 WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
 WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/sagee/.m2/repository/io/netty/netty-common/4.1.128.Final/netty-common-4.1.128.Final.jar)
 WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
 WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
-2026-03-29T21:12:32.856+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
-2026-03-29T21:12:32.857+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
-2026-03-29T21:12:32.857+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
-2026-03-29T21:12:33.061+05:30  INFO 20371 --- [api-gateway] [  restartedMain] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
-2026-03-29T21:12:33.101+05:30  INFO 20371 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 1.269 seconds (process running for 1.558)
-2026-03-29T21:12:33.103+05:30  WARN 20371 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
-2026-03-29T21:12:33.103+05:30  WARN 20371 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-03-30T18:44:37.249+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-03-30T18:44:37.479+05:30  INFO 15195 --- [api-gateway] [  restartedMain] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
+2026-03-30T18:44:37.541+05:30  INFO 15195 --- [api-gateway] [  restartedMain] c.f.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 1.668 seconds (process running for 1.99)
+2026-03-30T18:44:37.545+05:30  WARN 15195 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-03-30T18:44:37.546+05:30  WARN 15195 --- [api-gateway] [  restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
 WARNING: A restricted method in java.lang.System has been called
 WARNING: java.lang.System::loadLibrary has been called by io.netty.util.internal.NativeLibraryUtil in an unnamed module (file:/Users/sagee/.m2/repository/io/netty/netty-common/4.1.128.Final/netty-common-4.1.128.Final.jar)
 WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
 WARNING: Restricted methods will be blocked in a future release unless native access is enabled
 
-2026-03-29T21:12:38.327+05:30 ERROR 20371 --- [api-gateway] [ctor-http-nio-3] i.n.r.d.DnsServerAddressStreamProviders  : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
+2026-03-30T18:59:15.850+05:30 ERROR 15195 --- [api-gateway] [ctor-http-nio-6] i.n.r.d.DnsServerAddressStreamProviders  : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
