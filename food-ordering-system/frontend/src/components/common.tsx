@@ -1,4 +1,5 @@
 import type React from 'react';
+import { X } from 'lucide-react';
 
 export function FormGroup({
   label,
@@ -45,8 +46,8 @@ export function ModalShell({
             <h2>{title}</h2>
             {subtitle ? <p className="modal-subtitle">{subtitle}</p> : null}
           </div>
-          <button type="button" className="icon-button" onClick={onClose} aria-label="Close dialog">
-            X
+          <button type="button" className="icon-button subtle-button" onClick={onClose} aria-label="Close dialog">
+            <X size={18} />
           </button>
         </div>
         {children}
@@ -92,14 +93,19 @@ export function MetricCard({
   label,
   value,
   tone = 'default',
+  icon,
 }: {
   label: string;
   value: string;
   tone?: 'default' | 'accent' | 'warning';
+  icon?: React.ReactNode;
 }) {
   return (
     <div className={`metric-card metric-card-${tone}`}>
-      <span>{label}</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>{label}</span>
+        {icon && <span style={{ opacity: 0.5 }}>{icon}</span>}
+      </div>
       <strong>{value}</strong>
     </div>
   );

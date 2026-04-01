@@ -8,13 +8,30 @@ import {
   ShoppingCart,
   Utensils,
   X,
+  Loader2,
+  Coffee,
+  Pizza,
+  Cake,
+  Apple,
+  Beef,
 } from 'lucide-react';
 import { api } from '../api';
 import type { Customer, MenuItem } from '../types';
 import { FormGroup, MetricCard, ModalShell } from '../components/common';
+import { toast } from 'sonner';
 
 interface CartItem extends MenuItem {
   cartQuantity: number;
+}
+
+function getCategoryIcon(category: string) {
+  const normalized = category.toLowerCase();
+  if (normalized.includes('drink') || normalized.includes('beverage') || normalized.includes('coffee')) return <Coffee size={28} />;
+  if (normalized.includes('dessert') || normalized.includes('cake') || normalized.includes('sweet')) return <Cake size={28} />;
+  if (normalized.includes('pizza') || normalized.includes('italian')) return <Pizza size={28} />;
+  if (normalized.includes('meat') || normalized.includes('beef') || normalized.includes('steak')) return <Beef size={28} />;
+  if (normalized.includes('veg') || normalized.includes('salad') || normalized.includes('healthy')) return <Apple size={28} />;
+  return <Utensils size={28} />;
 }
 
 const initialCustomerForm: Omit<Customer, 'id'> = {
@@ -37,14 +54,18 @@ export function ShopPage() {
   const [paymentMethod, setPaymentMethod] = useState('CARD');
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     const loadMenu = async () => {
       try {
+        setIsInitialLoad(true);
         setLoadError(null);
         setMenuItems(await api.getMenuItems());
       } catch {
         setLoadError('Menu service is unavailable. Start the backend stack and reload the shop.');
+      } finally {
+        setIsInitialLoad(false);
       }
     };
 
@@ -67,6 +88,7 @@ export function ShopPage() {
 
       return [...previous, { ...item, cartQuantity: 1 }];
     });
+    toast.success(`${item.itemName} added to cart!`);
   };
 
   const updateQuantity = (id: number, delta: number) => {
@@ -127,8 +149,11 @@ export function ShopPage() {
       setCart([]);
       setCustomerForm(initialCustomerForm);
       setPaymentMethod('CARD');
+      toast.success('Order placed successfully!');
     } catch {
-      setLoadError('Checkout failed. Verify the customer, order, and payment services are all running.');
+      const msg = 'Checkout failed. Verify the customer, order, and payment services are all running.';
+      setLoadError(msg);
+      toast.error(msg);
     } finally {
       setIsLoading(false);
     }
@@ -136,7 +161,7 @@ export function ShopPage() {
 
   return (
     <div className="page-stack">
-      <section className="hero-panel shop-hero">
+      <section className="hero-panel image-hero">
         <div className="hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">Customer workspace</p>
@@ -154,10 +179,10 @@ export function ShopPage() {
           </div>
 
           <div className="hero-metrics">
-            <MetricCard label="Available dishes" value={String(availableItems.length)} tone="accent" />
-            <MetricCard label="Items in cart" value={String(cartCount)} />
-            <MetricCard label="Order total" value={`$${cartTotal.toFixed(2)}`} />
-            <MetricCard label="Checkout mode" value="Email-resolved" tone="warning" />
+            <MetricCard label="Available dishes" value={String(availableItems.length)} tone="accent" icon={<Utensils size={18} />} />
+            <MetricCard label="Items in cart" value={String(cartCount)} icon={<ShoppingCart size={18} />} />
+            <MetricCard label="Order total" value={`$${cartTotal.toFixed(2)}`} icon={<CreditCard size={18} />} />
+            <MetricCard label="Checkout mode" value="Email-resolved" tone="warning" icon={<CheckCircle2 size={18} />} />
           </div>
         </div>
       </section>
@@ -175,7 +200,13 @@ export function ShopPage() {
         </button>
       </section>
 
-      {menuItems.length === 0 ? (
+      {isInitialLoad ? (
+        <section className="surface-panel empty-panel">
+          <Loader2 size={40} className="animate-spin" />
+          <h3>Loading menu...</h3>
+          <p>Please wait while we fetch the latest offerings.</p>
+        </section>
+      ) : menuItems.length === 0 ? (
         <section className="surface-panel empty-panel">
           <Utensils size={40} />
           <h3>No menu items available</h3>
@@ -185,15 +216,20 @@ export function ShopPage() {
         <section className="catalog-grid">
           {menuItems.map((item) => (
             <article key={item.id} className={`catalog-card${item.available ? '' : ' catalog-card-muted'}`}>
-              <div className="catalog-top">
-                <span className={`status-pill ${item.available ? 'status-pill-success' : 'status-pill-warning'}`}>
-                  {item.available ? 'Available' : 'Sold Out'}
-                </span>
-                <span className="price-pill">${item.price.toFixed(2)}</span>
+              <div className="catalog-icon-wrapper">
+                {getCategoryIcon(item.category)}
               </div>
-              <div className="catalog-body">
-                <h3>{item.itemName}</h3>
-                <p>{item.category}</p>
+              <div className="catalog-content">
+                <div className="catalog-top">
+                  <span className={`status-pill ${item.available ? 'status-pill-success' : 'status-pill-warning'}`}>
+                    {item.available ? 'Available' : 'Sold Out'}
+                  </span>
+                  <span className="price-pill">${item.price.toFixed(2)}</span>
+                </div>
+                <div className="catalog-body">
+                  <h3>{item.itemName}</h3>
+                  <p>{item.category}</p>
+                </div>
               </div>
               <button
                 type="button"

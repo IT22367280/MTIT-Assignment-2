@@ -23,7 +23,7 @@ const experiences = [
 export function LandingPage() {
   return (
     <div className="page-stack">
-      <section className="hero-panel landing-hero">
+      <section className="hero-panel image-hero">
         <div className="hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">Role-oriented frontend</p>

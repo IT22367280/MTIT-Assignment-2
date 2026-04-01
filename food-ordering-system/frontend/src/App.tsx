@@ -3,24 +3,12 @@ import { Home, ShieldCheck, Store, Utensils } from 'lucide-react';
 import { LandingPage } from './pages/LandingPage';
 import { AdminPage } from './pages/AdminPage';
 import { ShopPage } from './pages/ShopPage';
+import { Toaster } from 'sonner';
 import { navigate, usePathname } from './navigation';
 
 type AppRoute = '/' | '/shop' | '/admin';
 
-const routeMeta: Record<AppRoute, { label: string; description: string }> = {
-  '/': {
-    label: 'Choose Workspace',
-    description: 'Separate customer and admin experiences on top of the same microservice backend.',
-  },
-  '/shop': {
-    label: 'Customer Shop',
-    description: 'Browse the menu, build a cart, and place orders through the existing gateway APIs.',
-  },
-  '/admin': {
-    label: 'Admin Console',
-    description: 'Operate menu, customers, orders, and payments without mixing those workflows into the storefront.',
-  },
-};
+
 
 function coerceRoute(pathname: string): AppRoute | null {
   if (pathname === '/' || pathname === '/shop' || pathname === '/admin') {
@@ -79,16 +67,10 @@ export default function App() {
             <span className="shell-brand-mark">
               <Utensils size={18} />
             </span>
-            <span>
+            <span style={{ fontSize: '1.2rem' }}>
               <strong>FreshBites</strong>
-              <small>Domain microservices, role-based UI</small>
             </span>
           </button>
-          <div className="shell-copy">
-            <p className="eyebrow">Frontend split, backend preserved</p>
-            <h1>{route ? routeMeta[route].label : 'Route Not Found'}</h1>
-            <p>{route ? routeMeta[route].description : 'This view does not exist in the current app shell.'}</p>
-          </div>
         </div>
 
         <nav className="shell-nav" aria-label="Primary">
@@ -122,6 +104,7 @@ export default function App() {
         {route === '/shop' && <ShopPage />}
         {route === '/admin' && <AdminPage />}
       </main>
+      <Toaster position="top-right" richColors theme="light" expand={true} />
     </div>
   );
 }
