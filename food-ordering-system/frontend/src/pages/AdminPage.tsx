@@ -8,10 +8,12 @@ import {
   Trash2,
   Users,
   Wallet,
+  Loader2,
 } from 'lucide-react';
 import { api } from '../api';
 import { DataTable, FormGroup, MetricCard, ModalShell } from '../components/common';
 import type { Customer, FoodOrder, MenuItem, Payment } from '../types';
+import { toast } from 'sonner';
 
 type AdminTab = 'OVERVIEW' | 'MENU' | 'CUSTOMERS' | 'ORDERS' | 'PAYMENTS';
 type ModalType =
@@ -62,7 +64,9 @@ export function AdminPage() {
   const [orders, setOrders] = useState<FoodOrder[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [isInitialLoadError, setIsInitialLoadError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType | null>(null);
   const [formData, setFormData] = useState<Record<string, any>>({});
@@ -84,8 +88,10 @@ export function AdminPage() {
       setPayments(loadedPayments);
     } catch {
       setLoadError('Admin console could not load one or more services. Start the backend stack and refresh.');
+      if (isInitialLoad) setIsInitialLoadError(true);
     } finally {
       setIsLoading(false);
+      setIsInitialLoad(false);
     }
   };
 
@@ -126,14 +132,17 @@ export function AdminPage() {
 
       if (modalType === 'ADD_MENU') {
         await api.createMenuItem(payload);
+        toast.success('Menu item added successfully!');
       } else {
         await api.updateMenuItem(formData.id, payload);
+        toast.success('Menu item updated successfully!');
       }
 
       closeModal();
       await refreshAll();
     } catch {
       setLoadError('Menu update failed. Check the payload and backend status.');
+      toast.error('Menu update failed.');
     }
   };
 
@@ -143,14 +152,17 @@ export function AdminPage() {
     try {
       if (modalType === 'ADD_CUSTOMER') {
         await api.createCustomer(formData as Omit<Customer, 'id'>);
+        toast.success('Customer added successfully!');
       } else {
         await api.updateCustomer(formData.id, formData as Omit<Customer, 'id'>);
+        toast.success('Customer updated successfully!');
       }
 
       closeModal();
       await refreshAll();
     } catch {
       setLoadError('Customer update failed. Existing email conflicts now need correction instead of a blind retry.');
+      toast.error('Customer update failed.');
     }
   };
 
@@ -173,14 +185,17 @@ export function AdminPage() {
           paymentMethod: 'CASH',
           paymentStatus: 'ON_DELIVERY',
         });
+        toast.success('Order created successfully!');
       } else {
         await api.updateOrderStatus(formData.id, formData.status);
+        toast.success('Order updated successfully!');
       }
 
       closeModal();
       await refreshAll();
     } catch {
       setLoadError('Order update failed. Verify the downstream services are available.');
+      toast.error('Order update failed.');
     }
   };
 
@@ -195,14 +210,17 @@ export function AdminPage() {
           paymentMethod: formData.paymentMethod,
           paymentStatus: formData.paymentStatus,
         });
+        toast.success('Payment added successfully!');
       } else {
         await api.updatePaymentStatus(formData.id, formData.paymentStatus);
+        toast.success('Payment updated successfully!');
       }
 
       closeModal();
       await refreshAll();
     } catch {
       setLoadError('Payment update failed. Verify order and payment services are healthy.');
+      toast.error('Payment update failed.');
     }
   };
 
@@ -213,9 +231,11 @@ export function AdminPage() {
 
     try {
       await api.deleteMenuItem(id);
+      toast.success('Menu item deleted.');
       await refreshAll();
     } catch {
       setLoadError('Menu deletion failed.');
+      toast.error('Menu deletion failed.');
     }
   };
 
@@ -226,9 +246,11 @@ export function AdminPage() {
 
     try {
       await api.deleteCustomer(id);
+      toast.success('Customer deleted.');
       await refreshAll();
     } catch {
       setLoadError('Customer deletion failed.');
+      toast.error('Customer deletion failed.');
     }
   };
 
@@ -239,9 +261,11 @@ export function AdminPage() {
 
     try {
       await api.deleteOrder(id);
+      toast.success('Order deleted.');
       await refreshAll();
     } catch {
       setLoadError('Order deletion failed.');
+      toast.error('Order deletion failed.');
     }
   };
 
@@ -252,9 +276,11 @@ export function AdminPage() {
 
     try {
       await api.deletePayment(id);
+      toast.success('Payment deleted.');
       await refreshAll();
     } catch {
       setLoadError('Payment deletion failed.');
+      toast.error('Payment deletion failed.');
     }
   };
 
@@ -266,14 +292,24 @@ export function AdminPage() {
   const availableMenuCount = menuItems.filter((item) => item.available).length;
 
   const renderContent = () => {
+    if (isInitialLoad && !isInitialLoadError) {
+      return (
+        <div className="surface-panel empty-panel">
+          <Loader2 size={40} className="animate-spin text-primary" />
+          <h3>Loading Admin Workspace...</h3>
+          <p>Connecting to microservices and gathering dashboard intelligence.</p>
+        </div>
+      );
+    }
+
     if (activeTab === 'OVERVIEW') {
       return (
         <div className="page-stack">
           <div className="metrics-grid">
-            <MetricCard label="Available menu items" value={String(availableMenuCount)} tone="accent" />
-            <MetricCard label="Registered customers" value={String(customers.length)} />
-            <MetricCard label="Orders needing attention" value={String(pendingOrders)} tone="warning" />
-            <MetricCard label="Paid revenue" value={`$${totalRevenue.toFixed(2)}`} />
+            <MetricCard label="Available menu items" value={String(availableMenuCount)} tone="accent" icon={<ListTree size={18} />} />
+            <MetricCard label="Registered customers" value={String(customers.length)} icon={<Users size={18} />} />
+            <MetricCard label="Orders needing attention" value={String(pendingOrders)} tone="warning" icon={<Receipt size={18} />} />
+            <MetricCard label="Paid revenue" value={`$${totalRevenue.toFixed(2)}`} icon={<Wallet size={18} />} />
           </div>
 
           <div className="split-grid">
@@ -516,10 +552,10 @@ export function AdminPage() {
             </p>
           </div>
           <div className="hero-metrics">
-            <MetricCard label="Menu items" value={String(menuItems.length)} tone="accent" />
-            <MetricCard label="Customers" value={String(customers.length)} />
-            <MetricCard label="Orders" value={String(orders.length)} />
-            <MetricCard label="Payments" value={String(payments.length)} />
+            <MetricCard label="Menu items" value={String(menuItems.length)} tone="accent" icon={<ListTree size={18} />} />
+            <MetricCard label="Customers" value={String(customers.length)} icon={<Users size={18} />} />
+            <MetricCard label="Orders" value={String(orders.length)} icon={<Receipt size={18} />} />
+            <MetricCard label="Payments" value={String(payments.length)} icon={<Wallet size={18} />} />
           </div>
         </div>
       </section>
