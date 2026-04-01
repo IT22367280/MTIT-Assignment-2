@@ -260,6 +260,12 @@ p {
   border-color: rgba(245, 158, 11, 0.5);
 }
 
+.admin-cover {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.7)),
+    url('/admin_app_cover.png') center/cover no-repeat !important;
+}
+
 .shop-hero {
   background:
     linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(255, 255, 255, 0.95)),

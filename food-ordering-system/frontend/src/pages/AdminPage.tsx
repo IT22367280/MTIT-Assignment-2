@@ -9,6 +9,7 @@ import {
   Users,
   Wallet,
   Loader2,
+  Search,
 } from 'lucide-react';
 import { api } from '../api';
 import { DataTable, FormGroup, MetricCard, ModalShell } from '../components/common';
@@ -70,6 +71,10 @@ export function AdminPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType | null>(null);
   const [formData, setFormData] = useState<Record<string, any>>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [paymentStatusFilter, setPaymentStatusFilter] = useState('');
 
   const refreshAll = async () => {
     try {
@@ -291,6 +296,40 @@ export function AdminPage() {
     .reduce((sum, payment) => sum + payment.amount, 0);
   const availableMenuCount = menuItems.filter((item) => item.available).length;
 
+  const safeSearch = searchQuery.toLowerCase();
+
+  const categories = Array.from(new Set(menuItems.map((item) => item.category)));
+
+  const filteredMenu = menuItems.filter((item) =>
+    (categoryFilter === '' || item.category === categoryFilter) &&
+    (item.itemName.toLowerCase().includes(safeSearch) ||
+      item.category.toLowerCase().includes(safeSearch) ||
+      String(item.id).includes(safeSearch))
+  );
+
+  const filteredCustomers = customers.filter((c) =>
+    c.fullName.toLowerCase().includes(safeSearch) ||
+    c.email.toLowerCase().includes(safeSearch) ||
+    String(c.id).includes(safeSearch)
+  );
+
+  const filteredOrders = orders.filter((o) =>
+    (statusFilter === '' || o.status === statusFilter) &&
+    (o.itemName.toLowerCase().includes(safeSearch) ||
+      o.status.toLowerCase().includes(safeSearch) ||
+      String(o.id).includes(safeSearch) ||
+      String(o.customerId).includes(safeSearch) ||
+      (o.customerName && o.customerName.toLowerCase().includes(safeSearch)))
+  );
+
+  const filteredPayments = payments.filter((p) =>
+    (paymentStatusFilter === '' || p.paymentStatus === paymentStatusFilter) &&
+    (p.paymentMethod.toLowerCase().includes(safeSearch) ||
+      p.paymentStatus.toLowerCase().includes(safeSearch) ||
+      String(p.id).includes(safeSearch) ||
+      String(p.orderId).includes(safeSearch))
+  );
+
   const renderContent = () => {
     if (isInitialLoad && !isInitialLoadError) {
       return (
@@ -361,18 +400,56 @@ export function AdminPage() {
               <p className="eyebrow">Admin menu</p>
               <h3>Catalog management</h3>
             </div>
-            <button type="button" className="btn btn-primary" onClick={() => openAddModal('ADD_MENU', { available: 'true' })}>
-              <Plus size={16} />
-              Add Item
-            </button>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <select
+                className="form-control"
+                style={{ width: 160, padding: '0.6rem 1rem' }}
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+              >
+                <option value="">All Categories</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+              <div style={{ position: 'relative' }}>
+                <Search
+                  size={16}
+                  style={{
+                    position: 'absolute',
+                    left: 16,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    opacity: 0.5,
+                    color: 'var(--text-main)',
+                  }}
+                />
+                <input
+                  className="form-control"
+                  style={{ width: 220, padding: '0.6rem 1rem 0.6rem 2.6rem' }}
+                  placeholder="Search catalog..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => openAddModal('ADD_MENU', { available: 'true' })}
+              >
+                <Plus size={16} /> Add Item
+              </button>
+            </div>
           </div>
 
           <DataTable
             headers={['ID', 'Item Name', 'Category', 'Price', 'Availability', 'Actions']}
-            empty={menuItems.length === 0}
-            emptyMessage="No menu items found."
+            empty={filteredMenu.length === 0}
+            emptyMessage={searchQuery ? 'No models match your search.' : 'No menu items found.'}
           >
-            {menuItems.map((item) => (
+            {filteredMenu.map((item) => (
               <tr key={item.id}>
                 <td>#{item.id}</td>
                 <td className="strong-cell">{item.itemName}</td>
@@ -404,18 +481,23 @@ export function AdminPage() {
               <p className="eyebrow">Admin customers</p>
               <h3>Customer records</h3>
             </div>
-            <button type="button" className="btn btn-primary" onClick={() => openAddModal('ADD_CUSTOMER')}>
-              <Plus size={16} />
-              Add Customer
-            </button>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div style={{ position: 'relative' }}>
+                <Search size={16} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', opacity: 0.5, color: 'var(--text-main)' }} />
+                <input className="form-control" style={{ width: 220, padding: '0.6rem 1rem 0.6rem 2.6rem' }} placeholder="Search customers..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+              </div>
+              <button type="button" className="btn btn-primary" onClick={() => openAddModal('ADD_CUSTOMER')}>
+                <Plus size={16} /> Add Customer
+              </button>
+            </div>
           </div>
 
           <DataTable
             headers={['ID', 'Full Name', 'Email', 'Phone', 'Address', 'Actions']}
-            empty={customers.length === 0}
-            emptyMessage="No customers found."
+            empty={filteredCustomers.length === 0}
+            emptyMessage={searchQuery ? 'No customers match your search.' : 'No customers found.'}
           >
-            {customers.map((customer) => (
+            {filteredCustomers.map((customer) => (
               <tr key={customer.id}>
                 <td>#{customer.id}</td>
                 <td className="strong-cell">{customer.fullName}</td>
@@ -440,22 +522,55 @@ export function AdminPage() {
               <p className="eyebrow">Admin orders</p>
               <h3>Order operations</h3>
             </div>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => openAddModal('ADD_ORDER', { status: 'PENDING', quantity: 1 })}
-            >
-              <Plus size={16} />
-              Create Order
-            </button>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <select
+                className="form-control"
+                style={{ width: 160, padding: '0.6rem 1rem' }}
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="">All Statuses</option>
+                <option value="PENDING">PENDING</option>
+                <option value="RECEIVED">RECEIVED</option>
+                <option value="COMPLETE">COMPLETE</option>
+                <option value="CANCELLED">CANCELLED</option>
+              </select>
+              <div style={{ position: 'relative' }}>
+                <Search
+                  size={16}
+                  style={{
+                    position: 'absolute',
+                    left: 16,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    opacity: 0.5,
+                    color: 'var(--text-main)',
+                  }}
+                />
+                <input
+                  className="form-control"
+                  style={{ width: 220, padding: '0.6rem 1rem 0.6rem 2.6rem' }}
+                  placeholder="Search orders..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => openAddModal('ADD_ORDER', { status: 'PENDING', quantity: 1 })}
+              >
+                <Plus size={16} /> Create Order
+              </button>
+            </div>
           </div>
 
           <DataTable
             headers={['Order ID', 'Customer', 'Item', 'Qty', 'Total', 'Payment', 'Status', 'Actions']}
-            empty={orders.length === 0}
-            emptyMessage="No orders found."
+            empty={filteredOrders.length === 0}
+            emptyMessage={searchQuery ? 'No orders match your search.' : 'No orders found.'}
           >
-            {orders.map((order) => (
+            {filteredOrders.map((order) => (
               <tr key={order.id}>
                 <td className="strong-cell">#{order.id}</td>
                 <td>
@@ -496,22 +611,53 @@ export function AdminPage() {
             <p className="eyebrow">Admin payments</p>
             <h3>Settlement tracking</h3>
           </div>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => openAddModal('ADD_PAYMENT', { paymentMethod: 'CARD', paymentStatus: 'PAID' })}
-          >
-            <Plus size={16} />
-            Add Payment
-          </button>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <select
+              className="form-control"
+              style={{ width: 160, padding: '0.6rem 1rem' }}
+              value={paymentStatusFilter}
+              onChange={(e) => setPaymentStatusFilter(e.target.value)}
+            >
+              <option value="">All Statuses</option>
+              <option value="PAID">PAID</option>
+              <option value="ON_DELIVERY">ON_DELIVERY</option>
+            </select>
+            <div style={{ position: 'relative' }}>
+              <Search
+                size={16}
+                style={{
+                  position: 'absolute',
+                  left: 16,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  opacity: 0.5,
+                  color: 'var(--text-main)',
+                }}
+              />
+              <input
+                className="form-control"
+                style={{ width: 220, padding: '0.6rem 1rem 0.6rem 2.6rem' }}
+                placeholder="Search payments..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => openAddModal('ADD_PAYMENT', { paymentMethod: 'CARD', paymentStatus: 'PAID' })}
+            >
+              <Plus size={16} /> Add Payment
+            </button>
+          </div>
         </div>
 
         <DataTable
           headers={['Payment ID', 'Order ID', 'Amount', 'Method', 'Status', 'Actions']}
-          empty={payments.length === 0}
-          emptyMessage="No payments found."
+          empty={filteredPayments.length === 0}
+          emptyMessage={searchQuery ? 'No payments match your search.' : 'No payments found.'}
         >
-          {payments.map((payment) => (
+          {filteredPayments.map((payment) => (
             <tr key={payment.id}>
               <td className="strong-cell">#{payment.id}</td>
               <td>#{payment.orderId}</td>
@@ -541,7 +687,7 @@ export function AdminPage() {
 
   return (
     <div className="page-stack">
-      <section className="hero-panel admin-hero">
+      <section className="hero-panel image-hero admin-cover">
         <div className="hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">Admin workspace</p>
@@ -577,7 +723,13 @@ export function AdminPage() {
               key={tab.key}
               type="button"
               className={`tab-button${activeTab === tab.key ? ' tab-button-active' : ''}`}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => {
+                setActiveTab(tab.key);
+                setSearchQuery('');
+                setCategoryFilter('');
+                setStatusFilter('');
+                setPaymentStatusFilter('');
+              }}
             >
               {tab.icon}
               {tab.label}
